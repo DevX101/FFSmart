@@ -122,18 +122,18 @@ public class Employee implements DataManagement{
     @Override
     public void deleteData(int index) {
         List<String[]> employees = retrieveData();
-        List<String[]> newEmployees = new ArrayList<>();
         
-        int i = 0;
         for(String[] row : employees){
-            if(index != i){
-                newEmployees.add(row);
+            String role = row[4];
+            if(!"Head Chef".equals(role)){
+                employees.remove(index);
+                break;
             }
-            ++i;
+            ++index;
         }
         
-        try (CSVWriter writer = new CSVWriter(new FileWriter("orders.csv"))) {
-            writer.writeAll(newEmployees);
+        try (CSVWriter writer = new CSVWriter(new FileWriter("employees.csv"))) {
+            writer.writeAll(employees);
         } catch (IOException ex) {
             Logger.getLogger(Delivery.class.getName()).log(Level.SEVERE, null, ex);
         }

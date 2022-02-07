@@ -23,6 +23,9 @@ public class Home extends javax.swing.JFrame {
     
     private final String name = Account.userDetails[2] + ' ' + Account.userDetails[3], 
             role = Account.userDetails[4];
+    
+    // Generate Report
+    private InventoryManager inv = new InventoryManager();
 
     /**
      * Creates new form Home
@@ -40,7 +43,7 @@ public class Home extends javax.swing.JFrame {
         if(!"Head Chef".equals(role)){
             accessBtn.hide();
         }else{
-            if(new InventoryManager().generateReport()){
+            if(inv.generateReport()){
                reportBtn.setBackground(Color.green);
                reportBtn.show();
             }
@@ -256,9 +259,9 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if(reportBtn.isSelected()){
-                new InventoryManager().displayReport(true);
+                inv.displayReport(true, this);
             }else{
-                new InventoryManager().displayReport(false);
+                inv.displayReport(false, this);
             }
             
         } catch (IOException ex) {

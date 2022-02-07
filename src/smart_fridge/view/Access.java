@@ -17,7 +17,7 @@ import smart_fridge.model.Employee;
  */
 public class Access extends javax.swing.JFrame {
     
-    private static final String role = Account.userDetails[4];
+    //private static final String role = Account.userDetails[4];
 
     /**
      * Creates new form Access
@@ -32,9 +32,9 @@ public class Access extends javax.swing.JFrame {
         account.displayAccessTable(accessTable);
         accessBtn.hide();
         
-        if(!"Head Chef".equals(role)){
-            removeBtn.hide();
-        }
+//        if(!"Head Chef".equals(role)){
+//            removeBtn.hide();
+//        }
     }
 
     /**
@@ -241,6 +241,12 @@ public class Access extends javax.swing.JFrame {
             new Employee().deleteData(accessTable.getSelectedRow());
             tblModel.removeRow(accessTable.getSelectedRow());
         }
+        
+//        DefaultTableModel tblModel = (DefaultTableModel)inventoryTable.getModel();
+//        if(inventoryTable.getSelectedRowCount() == 1){
+//            new Item().deleteData(inventoryTable.getSelectedRow());
+//            tblModel.removeRow(inventoryTable.getSelectedRow());
+//        }
     }//GEN-LAST:event_removeBtnActionPerformed
 
     /**

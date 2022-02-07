@@ -94,21 +94,20 @@ public class Item implements DataManagement{
 
     @Override
     public void deleteData(int index) {
-        System.out.println(index);
         List<String[]> items = retrieveData();
-        List<String[]> newItems = new ArrayList<>();
+        items.remove(index);
         
-        int i = 0;
-        for(String[] row : items){
-            if(index != i){
-                newItems.add(row);
-                System.out.println(row);
-            }
-            ++i;
-        }
+//        List<String[]> newItems = new ArrayList<>();
+//        int i = 0;
+//        for(String[] row : items){
+//            if(index != i){
+//                newItems.add(row);
+//            }
+//            ++i;
+//        }
         
         try (CSVWriter writer = new CSVWriter(new FileWriter("inventory.csv"))) {
-            writer.writeAll(newItems);
+            writer.writeAll(items);
         } catch (IOException ex) {
             Logger.getLogger(Delivery.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import smart_fridge.model.Delivery;
 import smart_fridge.model.Item;
+import smart_fridge.view.Home;
 import smart_fridge.view.Inventory;
 import smart_fridge.view.Order;
 
@@ -43,6 +44,7 @@ public class InventoryManager {
     // View
     private Inventory inventory;
     private Order order;
+    private JFrame frame = new JFrame(); 
 
     public InventoryManager() {}
 
@@ -115,7 +117,7 @@ public class InventoryManager {
                 item.setQuantity(quantity);
                 item.updateData(--rowIndex, 1);
                 exists = true;
-                JOptionPane.showMessageDialog(order, quantity + " added to existing item!");
+                JOptionPane.showMessageDialog(order, itemQuantity + " added to existing item!");
                 break;
             }
         }
@@ -150,13 +152,12 @@ public class InventoryManager {
     
     public boolean generateReport(){
         Calendar calendar = Calendar.getInstance();
-        TimeZone time_zone = TimeZone.getTimeZone("GMT");
-        calendar.setTimeZone(time_zone);
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));        
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         
         // Write report every Monday.
         boolean monday = false;
-        if(day == 1){
+        if(day == 2){
             monday = true;
             try {
                 File report = new File("report.txt");
@@ -188,25 +189,23 @@ public class InventoryManager {
         return monday;
     }
     
-    public void displayReport(boolean show) throws IOException{
+    public void displayReport(boolean show, Home home) throws IOException{
         try {
-            JFrame frame = new JFrame();
             JPanel panel = new JPanel();
-            JLabel label;
-            
             if(show){
-               BufferedReader readReport = new BufferedReader(new FileReader("Data/report.txt"));
+               BufferedReader readReport = new BufferedReader(new FileReader("report.txt"));
             
                 String report;
                 int line = 0;
                 while((report = readReport.readLine()) != null){
                     ++line;
-                    label = new JLabel("Line" + line);
+                    JLabel label = new JLabel("Line" + line);
                     label.setText(report);
                     panel.add(label);
                 }
                 readReport.close();
 
+                frame.setResizable(false);
                 frame.add(panel);
                 frame.setSize(200, 200);
                 frame.setVisible(true); 
@@ -214,7 +213,7 @@ public class InventoryManager {
                 frame.dispose();
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("Report unavailable.");
+            JOptionPane.showMessageDialog(home, "No information to report.");
         }
     }
 }

@@ -34,6 +34,7 @@ import smart_fridge.model.Item;
 public class Order extends javax.swing.JFrame {
     
     private final String role = Account.userDetails[4], supplier = Account.userDetails[6];
+    private JFrame frame = new JFrame();
 
     /**
      * Creates new form Order
@@ -337,6 +338,7 @@ public class Order extends javax.swing.JFrame {
                             dayField.setText("");
                             monthField.setText("");
                             yearField.setText("");
+                            frame = new JFrame();
                         }
                     } catch (IOException ex) {
                         Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
@@ -354,13 +356,12 @@ public class Order extends javax.swing.JFrame {
 
     private void orderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderBtnActionPerformed
         // TODO add your handling code here:
-
-        JFrame frame = new JFrame();
         Delivery delivery = new Delivery();
         List<String[]> orders = delivery.retrieveData();
         DefaultListModel<String> orderList = new DefaultListModel<>(); 
         
         if(!orderBtn.isSelected()){
+            System.out.println("Closing...");
             frame.dispose();
         }
         else{
@@ -396,7 +397,8 @@ public class Order extends javax.swing.JFrame {
                                         orderBtn.setSelected(false);
                                         
                                         String[] item = obj.toString().split(",");
-                                        String name = item[0].replace("Item: ", "");
+                                        String name = item[0].replace(") Item: ", "");
+                                        name = name.replaceAll("[0-9]", "");
                                         String quantity = item[1].replace("Quantity: ", "");
                                         
                                         nameField.setText(name.trim());
